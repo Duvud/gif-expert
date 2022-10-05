@@ -11,17 +11,38 @@ describe('Pruebas en <AddCategory />', () => {
         //screen.debug();
      });
 
-     test('Debe de llamar onNewCategor si el inut titnen un valor', () => { 
-        render(<AddCategory onNewCategoryTap={() => {}}/>);
-
+     test('Debe de llamar onNewCategor si el input tiene un valor', () => { 
+        const onNewCategoryTap = jest.fn();
         const inputValue = 'code';
-        // TODO: ???
+
+        render(<AddCategory onNewCategoryTap={onNewCategoryTap}/>);
+
         const input = screen.getByRole('textbox');
         const form = screen.getByRole('form');
 
-        fireEvent.input(input, {target: {value: 'code'}});
+        fireEvent.input(input, {target: {value: inputValue}});
         fireEvent.submit(form);
         expect(input.value).toBe('');
 
+        expect(onNewCategoryTap).toHaveBeenCalled();
+        expect(onNewCategoryTap).toHaveBeenCalledTimes(1);
+        expect(onNewCategoryTap).toHaveBeenCalledWith(inputValue);
+
+
+      });
+
+      test('No debe de llamar onNewCategory si el input está vacío', () => { 
+        const onNewCategoryTap = jest.fn();
+        const inputValue = '';
+
+        render(<AddCategory onNewCategoryTap={onNewCategoryTap}/>);
+
+        const input = screen.getByRole('textbox');
+        const form = screen.getByRole('form');
+
+        fireEvent.input(input, {target: {value: inputValue}});
+        fireEvent.submit(form);
+        expect(onNewCategoryTap).not.toHaveBeenCalled();
+        //expect(onNewCategoryTap).toHaveBeenCalledTimes(0);
       });
  });

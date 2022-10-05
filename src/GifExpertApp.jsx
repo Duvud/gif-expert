@@ -4,6 +4,7 @@ import AddCategory from "./components/AddCategory";
 
 export const GifExpertApp = () => {
   const [categories, setCategories] = useState([]);
+  
   const onNewCategoryTap = (newCategory) => {
     if (categories.includes(newCategory)) {
       return;
